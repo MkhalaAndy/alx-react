@@ -1,6 +1,8 @@
 .App-footer {
-    font-size: 1rem;
-    padding: 1.2rem;
-    text-align: center;
-    font-style: italic;
-  }
+  background-color:white;
+  padding: 20px;
+  color: black;
+  font-style: italic;
+  text-align: center;
+  
+}

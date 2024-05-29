@@ -1,5 +1,7 @@
-# 0x09-react_redux_connectors_and_providers (Andy)
-## Learning Objectives
+## 0x09. React Redux Connectors and Providers
+
+### Learning Objectives
+
 - Redux connectors and how to use them
 - The different functions you can pass to a connector (mapStateToProps, mapDispatchToPros)
 - How to map an action creator to a component using a connector

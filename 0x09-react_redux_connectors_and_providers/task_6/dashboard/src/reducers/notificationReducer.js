@@ -1,34 +1,44 @@
-import * as actions from '../actions/notificationActionTypes';
-import { Map, setIn, set } from 'immutable';
-import { notificationsNormalizer } from '../schema/notifications';
+import { Map, fromJS } from "immutable";
 
-export const initialNotificationState= Map({
+import {
+  FETCH_NOTIFICATIONS_SUCCESS,
+  MARK_AS_READ,
+  SET_TYPE_FILTER,
+  SET_LOADING_STATE,
+} from "../actions/notificationActionTypes";
+
+export const initialNotificationState = {
   notifications: {},
-  filter: actions.NotificationTypeFilters.DEFAULT,
-  loading: false
-});
+  filter: "DEFAULT",
+  loading: false,
+};
 
-export function notificationReducer(state=Map(initialNotificationState), action={type: null}) {
-  switch(action.type) {
+import notificationsNormalizer from "../schema/notifications";
 
-    case actions.FETCH_NOTIFICATIONS_SUCCESS:
-      const normData = notificationsNormalizer(action.data);
-      Object.keys(normData.notifications).map((key) => {
-        normData.notifications[key].isRead = false;
+const notificationReducer = (state = Map(initialNotificationState), action) => {
+  switch (action.type) {
+    case FETCH_NOTIFICATIONS_SUCCESS:
+      const normalizedData = notificationsNormalizer(action.data);
+
+      Object.keys(normalizedData.notifications).map((key) => {
+        normalizedData.notifications[key].isRead = false;
       });
-      return state.mergeDeep(normData);
 
-    case actions.MARK_AS_READ:
-      return setIn(state, ['notifications', String(action.index), 'isRead'], true);
+      return state.mergeDeep(fromJS(normalizedData));
 
-    case actions.SET_TYPE_FILTER:
-      return set(state, 'filter', action.filter);
+    case MARK_AS_READ:
+      return state.setIn(["messages", String(action.index), "isRead"], true);
 
-    case actions.SET_LOADING_STATE:
-      return set(state, 'loading', action.loading);
-    
+    case SET_TYPE_FILTER:
+      return state.set("filter", action.filter);
+
+    case SET_LOADING_STATE:
+      return state.set("loading", action.loading);
+
     default:
-      return state;
-
+      break;
   }
-}
+  return state;
+};
+
+export default notificationReducer;
